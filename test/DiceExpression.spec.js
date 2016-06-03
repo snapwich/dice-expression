@@ -43,11 +43,16 @@ describe("DiceExpression", function() {
         ).to.equal(-4);
     });
 
-    DiceExpression.__enableTestingMode();
-    it("should not suffer from regressions", function() {
+    it("should allow result to include dice rolls (and not suffer from regressions)", function() {
+        // sets static seed
+        DiceExpression.__enableTestingMode();
+
         expect(
-            new DiceExpression("2d6 - d6 + 45")()
-        ).to.equal(53);
+            new DiceExpression("2d6 - d6 + 45 - 3")(true)
+        ).to.deep.equal({
+            roll: 50,
+            dice: [5, 5, 2, 45, 3]
+        });
     });
 
     describe("for given examples", function() {
